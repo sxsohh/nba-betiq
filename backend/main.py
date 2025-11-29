@@ -10,6 +10,24 @@ DB_PATH = os.path.join("db", "nba_betting.db")
 
 app = FastAPI(title="NBA BetIQ API")
 
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI(title="NBA BetIQ API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["https://your-vercel-domain.vercel.app"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/")
+def root():
+    return {"message": "NBA BetIQ API is running"}
+
+
 class TeamSeasonQuery(BaseModel):
     team: str
     season: str
@@ -18,7 +36,10 @@ class TeamSeasonQuery(BaseModel):
 class HouseEdgeQuery(BaseModel):
     pass
 
-def run_sql(query: str, params: dict | None = None) -> pd.DataFrame:
+from typing import Optional, Dict
+
+def run_sql(query: str, params: Optional[Dict] = None) -> pd.DataFrame:
+
     conn = sqlite3.connect(DB_PATH)
     df = pd.read_sql_query(query, conn, params=params)
     conn.close()
@@ -54,4 +75,106 @@ def house_edge(q: HouseEdgeQuery):
     return {
         "sql_results": df.to_dict(orient="records"),
         "llm_prompt_example": prompt,
+    }
+
+def simulate_moneyline(home_team: str, away_team: str, home_ml: int, bet_amount: float):
+    # Convert ML to implied probability
+    if home_ml < 0:
+        p = (-home_ml) / ((-home_ml) + 100)
+    else:
+        p = 100 / (home_ml + 100)
+
+    # Your model predicted win probability
+    model_prob = 0.58  # placeholder
+
+    fair_line = int(-(model_prob / (1 - model_prob)) * 100)
+    house_edge = (p - model_prob) * 100
+
+    expected_profit_curve = []
+    bankroll = 0
+    for i in range(1, 51):
+        expected_profit = (model_prob * bet_amount) - ((1 - model_prob) * bet_amount)
+        bankroll += expected_profit
+        expected_profit_curve.append(bankroll)
+
+    return {
+        "win_prob": model_prob,
+        "fair_line": fair_line,
+        "house_edge": house_edge,
+        "bet_numbers": list(range(1, 51)),
+        "expected_profit_curve": expected_profit_curve,
+    }
+
+
+from pydantic import BaseModel
+import joblib
+
+# ================================
+#  NEW: Load ML models
+# ================================
+MODEL_DIR = "ml/models"
+
+home_win_model = joblib.load(os.path.join(MODEL_DIR, "home_win_xgb.pkl"))
+home_win_scaler = joblib.load(os.path.join(MODEL_DIR, "home_win_scaler.pkl"))
+home_win_calib = joblib.load(os.path.join(MODEL_DIR, "home_win_logreg_calibrated.pkl"))
+
+spread_model = joblib.load(os.path.join(MODEL_DIR, "spread_xgb.pkl"))
+spread_scaler = joblib.load(os.path.join(MODEL_DIR, "spread_scaler.pkl"))
+spread_calib = joblib.load(os.path.join(MODEL_DIR, "spread_logreg_calibrated.pkl"))
+
+ou_model = joblib.load(os.path.join(MODEL_DIR, "ou_xgb.pkl"))
+ou_scaler = joblib.load(os.path.join(MODEL_DIR, "ou_scaler.pkl"))
+ou_calib = joblib.load(os.path.join(MODEL_DIR, "ou_logreg_calibrated.pkl"))
+
+
+
+
+# ================================
+#  NEW: Request schema
+# ================================
+class FeaturePayload(BaseModel):
+    features: dict   # keys MUST match your training feature column names
+
+
+# ================================
+#  NEW: Helper
+# ================================
+def payload_to_df(payload: FeaturePayload) -> pd.DataFrame:
+    return pd.DataFrame([payload.features])
+
+
+# ================================
+#  NEW: Prediction routes
+# ================================
+
+@app.post("/predict/home-win")
+def predict_home_win(payload: FeaturePayload):
+    X = payload_to_df(payload)
+    prob = float(home_win_model.predict_proba(X)[0, 1])
+    pred = int(home_win_model.predict(X)[0])
+    return {
+        "prediction": pred,
+        "prob_home_win": prob
+    }
+
+
+@app.post("/predict/spread")
+def predict_spread(payload: FeaturePayload):
+    X = payload_to_df(payload)
+    prob = float(spread_model.predict_proba(X)[0, 1])
+    pred = int(spread_model.predict(X)[0])
+    return {
+        "prediction": pred,
+        "prob_home_covers": prob
+    }
+
+
+@app.post("/predict/ou")
+def predict_ou(payload: FeaturePayload):
+    X = payload_to_df(payload)
+    prob = float(ou_model.predict_proba(X)[0, 1])
+    pred = int(ou_model.predict(X)[0])
+    return {
+        "prediction": pred,
+        "prob_over": prob
     }
