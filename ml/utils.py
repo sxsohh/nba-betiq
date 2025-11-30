@@ -9,7 +9,23 @@ import joblib
 
 
 def load_games():
-    df = pd.read_csv("data/clean/games_master_2018_19.csv")
+    # Try different paths for data file
+    paths = [
+        "data/clean/games_master_2018_19.csv",
+        "data/processed/games_master_2018_19.csv",
+        "../data/processed/games_master_2018_19.csv"
+    ]
+
+    df = None
+    for path in paths:
+        try:
+            df = pd.read_csv(path)
+            break
+        except FileNotFoundError:
+            continue
+
+    if df is None:
+        raise FileNotFoundError(f"Could not find games_master_2018_19.csv in any of: {paths}")
 
     # Standardize numeric columns
     for col in df.columns:
@@ -69,4 +85,19 @@ def build_model(X_train, y_train):
 
 
 def save_model(model, name):
-    joblib.dump(model, f"ml/models/{name}.pkl")
+    import os
+    # Handle both running from project root and from ml/ directory
+    paths = ["ml/models", "models", "../ml/models"]
+    model_dir = None
+
+    for path in paths:
+        if os.path.exists(path):
+            model_dir = path
+            break
+
+    if model_dir is None:
+        # Create the directory
+        os.makedirs("models", exist_ok=True)
+        model_dir = "models"
+
+    joblib.dump(model, f"{model_dir}/{name}.pkl")
