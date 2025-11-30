@@ -349,38 +349,42 @@ pytest tests/test_ev.py -v
 
 ## Visualizations
 
+Below are the core model evaluation visuals generated from `ml/visuals.py`.  
+All images are stored in the [`visuals/`](visuals/) folder and render correctly on GitHub.
+
 <table>
 <tr>
 <td width="50%">
 
 ### ROC Curve
-![ROC Curve](visuals/roc_curve.png)
+<img src="visuals/roc_curve.png" alt="ROC Curve" width="100%">
 
 </td>
 <td width="50%">
 
 ### Calibration Curve
-![Calibration](visuals/prob_calibration_curve.png)
+<img src="visuals/prob_calibration_curve.png" alt="Calibration Curve" width="100%">
 
 </td>
 </tr>
+
 <tr>
 <td width="50%">
 
 ### Public Betting Distribution
-![Public Betting](visuals/public_betting_distribution.png)
+<img src="visuals/public_betting_distribution.png" alt="Public Betting Distribution" width="100%">
 
 </td>
 <td width="50%">
 
 ### Feature Importance
-![Feature Importance](visuals/feature_importance.png)
+<img src="visuals/feature_importance.png" alt="Feature Importance" width="100%">
 
 </td>
 </tr>
 </table>
 
----
+--
 
 ## Methodology
 
