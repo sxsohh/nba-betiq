@@ -53,8 +53,8 @@ env/
 *.sqlite3
 db/*.db
 
-# ML Models (use Git LFS or regenerate)
-ml/models/*.pkl
+# ML Models (committed for deployment; for larger projects use Git LFS)
+# ml/models/*.pkl  # Allowing .pkl files for deployment
 ml/models/*.joblib
 ml/models/*.h5
 ml/models/*.pt

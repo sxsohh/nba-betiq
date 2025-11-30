@@ -27,11 +27,9 @@ COPY --from=base /usr/local/bin /usr/local/bin
 # Copy application code
 COPY backend/ ./backend/
 COPY ml/ ./ml/
-COPY db/ ./db/
-COPY data/processed/ ./data/processed/
 
-# Create directories
-RUN mkdir -p logs visuals
+# Create required directories (data files and db are generated/optional)
+RUN mkdir -p logs visuals data/processed data/raw db
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
