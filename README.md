@@ -363,7 +363,7 @@ All images are stored in the [`visuals/`](visuals/) folder and render correctly 
 <td width="50%">
 
 ### Calibration Curve
-<img src="visuals/prob_calibration_curve.png" alt="Calibration Curve" width="100%">
+<img src="visuals/prob_calibration_curves.png" alt="Calibration Curve" width="100%">
 
 </td>
 </tr>
