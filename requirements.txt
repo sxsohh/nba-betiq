@@ -7,7 +7,6 @@ python-multipart==0.0.12
 
 # Database
 sqlalchemy==2.0.36
-sqlite3-python==1.0.0
 
 # Data Processing
 pandas==2.2.0
