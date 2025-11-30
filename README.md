@@ -1,4 +1,4 @@
-# NBA BetIQ — Why the House Always Wins 🏀📊
+# NBA BetIQ — Why the House Always Wins 
 
 > **An end-to-end machine learning system demonstrating that even with accurate predictions, the sportsbook's house edge (vig) makes long-term profitability extremely difficult.**
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Key Features](#key-features)
@@ -27,50 +27,50 @@
 
 ---
 
-## 🎯 Overview
+## Overview
 
 **NBA BetIQ** is a complete, production-ready ML system that analyzes NBA betting data from the **2018-2019 season**. It demonstrates the full data science lifecycle:
 
-✅ Data ingestion & ETL pipelines
-✅ Feature engineering (50+ features)
-✅ ML model training (XGBoost + Calibrated LR)
-✅ Model evaluation & calibration analysis
-✅ RESTful API (FastAPI)
-✅ Dockerized deployment
-✅ Unit tests & CI/CD (GitHub Actions)
-✅ Comprehensive documentation
+ Data ingestion & ETL pipelines
+ Feature engineering (50+ features)
+ ML model training (XGBoost + Calibrated LR)
+ Model evaluation & calibration analysis
+ RESTful API (FastAPI)
+ Dockerized deployment
+ Unit tests & CI/CD (GitHub Actions)
+ Comprehensive documentation
 
 **The Core Finding**: Even with a model achieving **62% accuracy** and positive expected value (EV), the **4-5% house edge** embedded in betting lines erodes profitability over time.
 
 ---
 
-## ⚡ Key Features
+##  Key Features
 
-### 🔢 Data Engineering
+###  Data Engineering
 - **ETL Pipeline**: 3-stage modular pipeline (ingest → clean/merge → features)
 - **Data Sources**: Vegas odds, game scores, shot-level data
 - **50+ Features**: Team statistics, betting lines, public %, implied probabilities, vig calculations
 
-### 🤖 Machine Learning
+### Machine Learning
 - **3 Prediction Models**: Moneyline (home win), Spread, Over/Under
 - **Algorithms**: XGBoost (accuracy) + Calibrated Logistic Regression (probability calibration)
 - **Evaluation Metrics**: ROC AUC, Brier Score, Expected Calibration Error (ECE)
 - **Probability Calibration**: Critical for accurate EV calculations
 
-### 🌐 Production API
+### Production API
 - **FastAPI**: Modern, async, type-safe REST API
 - **Endpoints**: `/predict`, `/predict/spread`, `/predict/ou`, `/ev`, `/predict_ev`
 - **Model Serving**: Pre-loaded models with health checks
 - **Documentation**: Auto-generated Swagger UI & ReDoc
 
-### 📊 Analysis & Visualization
+### Analysis & Visualization
 - ROC curves
 - Calibration plots
 - Feature importance
 - Public betting distributions
 - EV simulations
 
-### 🚀 DevOps
+### DevOps
 - **Docker**: Multi-stage build, docker-compose orchestration
 - **CI/CD**: GitHub Actions (tests, linting, build validation)
 - **Deployment**: Ready for Heroku, Railway, Render
@@ -78,7 +78,7 @@
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 nba-betiq/
@@ -129,7 +129,7 @@ nba-betiq/
 
 ---
 
-## 🛠 Installation
+## Installation
 
 ### Prerequisites
 - Python 3.9+
@@ -156,7 +156,7 @@ cp .env.example .env
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Run ETL Pipeline
 
@@ -213,7 +213,7 @@ uvicorn backend.api:app --reload
 
 ---
 
-## 📊 Pipeline Workflow
+## Pipeline Workflow
 
 ```
 Raw Data (CSV/TXT)
@@ -233,7 +233,7 @@ Predictions + EV Calculations
 
 ---
 
-## 🎯 Model Performance
+## Model Performance
 
 | Model | ROC AUC | Accuracy | Brier Score | ECE |
 |-------|---------|----------|-------------|-----|
@@ -251,7 +251,7 @@ Predictions + EV Calculations
 
 ---
 
-## 📡 API Documentation
+## API Documentation
 
 ### Health Check
 ```bash
@@ -291,7 +291,7 @@ curl -X POST http://localhost:8000/predict_ev \
 
 ---
 
-## 🐳 Deployment
+## Deployment
 
 ### Docker
 
@@ -320,7 +320,7 @@ git push heroku main
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -337,7 +337,7 @@ pytest tests/test_ev.py -v
 
 ---
 
-## 📈 Visualizations
+## Visualizations
 
 <table>
 <tr>
@@ -372,7 +372,7 @@ pytest tests/test_ev.py -v
 
 ---
 
-## 🧠 Methodology
+## Methodology
 
 ### Why the House Always Wins
 
@@ -397,7 +397,7 @@ But over time, variance and vig erode this edge.
 
 ---
 
-## 🔮 Future Roadmap
+## Future Roadmap
 
 - [ ] Multi-season training (2015-2024)
 - [ ] Live odds integration (real-time line movement)
@@ -408,7 +408,7 @@ But over time, variance and vig erode this edge.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Data Source**: SportsOddsHistory.com, NBA Stats API
 - **Inspiration**: "The Signal and the Noise" by Nate Silver
@@ -416,12 +416,12 @@ But over time, variance and vig erode this edge.
 
 ---
 
-## 📧 Contact
+## Contact
 
 **Stefan Soh**
-📧 Email: your.email@example.com
-💼 LinkedIn: [linkedin.com/in/stefansoh](https://linkedin.com/in/stefansoh)
-🐙 GitHub: [github.com/stefansoh](https://github.com/stefansoh)
+Email: stefanxsoh@gmail.com
+LinkedIn: [linkedin.com/in/stefanxsoh](https://linkedin.com/in/stefansoh)
+
 
 ---
 
