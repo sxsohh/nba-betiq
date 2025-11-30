@@ -91,8 +91,8 @@ def test_ev_with_favorite_odds():
     """Test EV calculation with minus odds (favorite)."""
     result = calculate_ev(win_prob=0.7, odds=-300, stake=100)
 
-    # 70% prob at -300 should have positive EV
-    assert result["ev"] > 0
+    # 70% prob at -300 (implies 75%) should have negative EV (no edge)
+    assert result["ev"] < 0
     assert result["implied_prob"] == pytest.approx(0.75, abs=0.001)
 
 
